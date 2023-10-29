@@ -3,13 +3,13 @@ from django.contrib import admin
 from .models import *
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
+    list_display = ("id","first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
     search_fields = ("first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
     list_per_page = 20
 
     fieldsets = (
         ("Personal Information", {
-            "fields": ("first_name", "last_name", "user_code", "national_code", "email", "phone_number", "password", "gender", "birth_date", "role"),
+            "fields": ("id", "first_name", "last_name", "user_code", "national_code", "email", "phone_number", "password", "gender", "birth_date", "role"),
         }),
         ("Permissions", {
             "fields": ("is_staff", "is_superuser", "groups", "user_permissions"),
@@ -19,10 +19,10 @@ class UserAdmin(admin.ModelAdmin):
         }),
     )
 
-    readonly_fields = ("first_name", "last_name", "user_code", "national_code", "password", "gender", "birth_date", "is_staff", "is_superuser", "last_login", "role")
+    readonly_fields = ("id", "first_name", "last_name", "user_code", "national_code", "password", "gender", "birth_date", "is_staff", "is_superuser", "last_login", "role")
 
     def get_readonly_fields(self, request, obj = None):
-        readonly_fields = ["user_code", "last_login", "is_staff", "is_superuser"]
+        readonly_fields = ["id", "user_code", "last_login", "is_staff", "is_superuser"]
         if obj:
             readonly_fields.extend(self.readonly_fields)
         return readonly_fields
