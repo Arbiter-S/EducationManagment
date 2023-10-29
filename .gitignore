@@ -1,0 +1,50 @@
+# If you are using PyCharm # 
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+
+
+# Installer logs 
+pip-log.txt 
+pip-delete-this-directory.txt 
+
+
+# pyenv 
+.python-version 
+
+# celery 
+celerybeat-schedule.* 
+
+
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 
+
+
+
+# mypy 
+.mypy_cache/ 
+
+
+
+# Visual Studio Code # 
+.vscode
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+.history
