@@ -1,28 +1,23 @@
-# If you are using PyCharm # 
-# User-specific stuff
+# If You Are Using PyCharm
+# User-Specific Stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
 
-
-# JIRA plugin
+# JIRA Plugin
 atlassian-ide-plugin.xml
 
-
-
-# Installer logs 
+# Installer Logs 
 pip-log.txt 
 pip-delete-this-directory.txt 
 
-
-# pyenv 
+# Pyenv 
 .python-version 
 
-# celery 
+# Celery 
 celerybeat-schedule.* 
-
 
 # Environments 
 .env 
@@ -31,14 +26,12 @@ env/
 venv/ 
 ENV/ 
 env.bak/ 
-venv.bak/ 
+venv.bak/
+Pipfile
+Pipfile.lock
 
-
-
-# mypy 
+# MyPy 
 .mypy_cache/ 
-
-
 
 # Visual Studio Code # 
 .vscode
