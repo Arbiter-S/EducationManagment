@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "university.apps.UniversityConfig",
     "department.apps.DepartmentConfig",
     "course.apps.CourseConfig",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
