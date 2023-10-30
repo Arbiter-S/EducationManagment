@@ -41,3 +41,6 @@ Pipfile.lock
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Database
+db.sqlite3
