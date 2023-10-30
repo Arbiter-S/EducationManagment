@@ -10,7 +10,7 @@ import uuid
 GENDER_CHOICES = (
         ("M", "Male"),
         ("F", "Female"),
-        )
+)
 
 ROLE_CHOICES = (
     ("STU", "Student"),
