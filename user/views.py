@@ -1,8 +1,20 @@
-from .models import *
-from .serializer import *
 from rest_framework.generics import *
 
-class EducationalAssistantAPIListCreateView(ListCreateAPIView):
+from .models import *
+
+from .serializer import *
+
+
+
+class ProfessorAPIListView(ListCreateAPIView):
+    queryset = Professor.objects.all()
+    serializer_class = ProfessorSerializer
+
+class ProfessorAPIDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Professor.objects.all()
+    serializer_class = ProfessorSerializer
+
+class EducationalAssistantAPIListView(ListCreateAPIView):
     queryset = EducationalAssistant.objects.all()
     serializer_class = EducationalAssistantSerializer
     

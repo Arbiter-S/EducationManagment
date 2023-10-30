@@ -1,7 +1,13 @@
-from rest_framework import serializers
-from . import  models
+from rest_framework.serializers import ModelSerializer
 
-class EducationalAssistantSerializer(serializers.ModelSerializer):
+from .models import  *
+
+class ProfessorSerializer(ModelSerializer):
     class Meta:
-        model = models.EducationalAssistant
-        fields = '__all__'
+        model = Professor
+        fields = "__all__"
+
+class EducationalAssistantSerializer(ModelSerializer):
+    class Meta:
+        model = EducationalAssistant
+        fields = "__all__"

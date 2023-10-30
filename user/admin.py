@@ -3,8 +3,8 @@ from django.contrib import admin
 from .models import *
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("id","first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
-    search_fields = ("first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
+    list_display = ("first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date", "id")
+    search_fields = ("id", "first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
     list_per_page = 20
 
     fieldsets = (
