@@ -2,7 +2,7 @@ from rest_framework.generics import *
 from .models import Department
 from .serializer import *
 
-class FacultyAPIListCreateView(ListCreateAPIView):
+class FacultyAPIListView(ListCreateAPIView):
     queryset = Department.objects.all()
     serializer_class = FacultySerializer
 
