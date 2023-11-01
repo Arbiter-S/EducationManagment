@@ -29,15 +29,19 @@ env.bak/
 venv.bak/
 Pipfile
 Pipfile.lock
+__pycache__
 
-# MyPy 
-.mypy_cache/ 
+# MyPy
+.mypy_cache/
 
-# Visual Studio Code # 
+# Visual Studio Code #
 .vscode
-.vscode/* 
-!.vscode/settings.json 
-!.vscode/tasks.json 
-!.vscode/launch.json 
-!.vscode/extensions.json 
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .history
+
+# Database
+db.sqlite3
