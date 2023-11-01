@@ -36,11 +36,19 @@ __pycache__
 
 # Visual Studio Code #
 .vscode
+<<<<<<< HEAD
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+=======
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+>>>>>>> 8d7f625e1ec9d3a52314763ae0585f9caf2fc13a
 .history
 
 # Database
