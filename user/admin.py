@@ -1,36 +1,61 @@
+from django import forms
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import *
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ("first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date", "id")
-    search_fields = ("id", "first_name", "last_name", "user_code", "national_code", "email", "phone_number", "gender", "birth_date")
-    list_per_page = 20
+from . signals import *
+
+class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(required = False, widget = forms.TextInput())
+
+    class Meta:
+        model = User
+        fields = UserCreationForm.Meta.fields + ("username",)
+
+class CustomUserAdmin(UserAdmin):
+    form = UserChangeForm
+    add_form = CustomUserCreationForm
+    list_display = ("username", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role")
+    search_fields = ("username", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role")
+    list_filter = ()
+    list_per_page = 10
 
     fieldsets = (
-        ("Personal Information", {
-            "fields": ("id", "first_name", "last_name", "user_code", "national_code", "email", "phone_number", "password", "gender", "birth_date", "role"),
-        }),
-        ("Permissions", {
-            "fields": ("is_staff", "is_superuser", "groups", "user_permissions"),
-        }),
-        ("Important dates", {
-            "fields": ("last_login", ),
-        }),
+        ("Personal info", {"fields": ("id", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role")}),
+        ("Authentication", {"fields": ("username", "password")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
     )
 
-    readonly_fields = ("id", "first_name", "last_name", "user_code", "national_code", "password", "gender", "birth_date", "is_staff", "is_superuser", "last_login", "role")
+    add_fieldsets = (
+        ("Personal info", {"fields": ("first_name", "last_name", "email", "national_code", "phone_number", "gender", "birth_date", "role")}),
+        ("Authentication", {
+            "classes": ("wide",),
+            "fields": ("username", "password1", "password2"),
+        }),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
+    )
 
+    readonly_fields = ("id", "username", "first_name", "last_name", "national_code", "gender", "birth_date", "role", "password", "is_active", "is_staff", "is_superuser", "last_login", "date_joined")
+    
     def get_readonly_fields(self, request, obj = None):
-        readonly_fields = ["id", "user_code", "last_login", "is_staff", "is_superuser"]
-        if obj:
-            readonly_fields.extend(self.readonly_fields)
-        return readonly_fields
+        readonly_fields = list(super().get_readonly_fields(request, obj))
+        if not obj:
+            readonly_fields.remove("first_name")
+            readonly_fields.remove("last_name")
+            readonly_fields.remove("national_code")
+            readonly_fields.remove("gender")
+            readonly_fields.remove("birth_date")
+            readonly_fields.remove("role")
+        return tuple(readonly_fields)
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ("user_first_name", "user_last_name", "get_user_code", "department", "major", "degree", "entry_year", "entry_semester", "get_military_status", "supervisor")
+    list_display = ("user_username", "user_first_name", "user_last_name", "department", "major", "degree", "entry_year", "entry_semester", "get_military_status", "supervisor")
     search_fields = ("user__first_name", "user__last_name", "user__national_code")
-    list_per_page = 20
+    list_filter = ()
+    list_per_page = 10
 
     fieldsets = (
         ("Student Information", {
@@ -42,7 +67,7 @@ class StudentAdmin(admin.ModelAdmin):
                 "entry_year",
                 "entry_semester",
                 "average",
-                "is_not_soldier",
+                "is_soldier",
                 "military_status",
                 "supervisor",
             ),
@@ -59,15 +84,16 @@ class StudentAdmin(admin.ModelAdmin):
 
     user_last_name.short_description = "Last Name"
 
-    def get_user_code(self, obj):
-        return obj.user.user_code
+    def user_username(self, obj):
+        return obj.user.username
 
-    get_user_code.short_description = "User Code"
+    user_username.short_description = "Username"
 
 class ProfessorAdmin(admin.ModelAdmin):
-    list_display = ("user_first_name", "user_last_name", "get_user_code", "department", "major", "expertise", "position")
+    list_display = ("user_username", "user_first_name", "user_last_name", "department", "major", "expertise", "position")
     search_fields = ("user__first_name", "user__last_name", "user__national_code")
-    list_per_page = 20
+    list_filter = ()
+    list_per_page = 10
 
     fieldsets = (
         ("Professor Information", {
@@ -91,15 +117,16 @@ class ProfessorAdmin(admin.ModelAdmin):
 
     user_last_name.short_description = "Last Name"
 
-    def get_user_code(self, obj):
-        return obj.user.user_code
+    def user_username(self, obj):
+        return obj.user.username
 
-    get_user_code.short_description = "User Code"
+    user_username.short_description = "Username"
 
 class EducationalAssistantAdmin(admin.ModelAdmin):
-    list_display = ("user_first_name", "user_last_name", "get_user_code", "department", "major")
+    list_display = ("user_username", "user_first_name", "user_last_name", "department", "major")
     search_fields = ("user__first_name", "user__last_name", "user__national_code")
-    list_per_page = 20
+    list_filter = ()
+    list_per_page = 10
 
     fieldsets = (
         ("Educational Assistant Information", {
@@ -121,15 +148,16 @@ class EducationalAssistantAdmin(admin.ModelAdmin):
 
     user_last_name.short_description = "Last Name"
 
-    def get_user_code(self, obj):
-        return obj.user.user_code
+    def user_username(self, obj):
+        return obj.user.username
 
-    get_user_code.short_description = "User Code"
+    user_username.short_description = "Username"
 
 class ITAdminAdmin(admin.ModelAdmin):
-    list_display = ("user_first_name", "user_last_name", "get_user_code")
+    list_display = ("user_username", "user_first_name", "user_last_name")
     search_fields = ("user__first_name", "user__last_name", "user__national_code")
-    list_per_page = 20
+    list_filter = ()
+    list_per_page = 10
 
     fieldsets = (
         ("IT Admin Information", {
@@ -149,12 +177,12 @@ class ITAdminAdmin(admin.ModelAdmin):
 
     user_last_name.short_description = "Last Name"
 
-    def get_user_code(self, obj):
-        return obj.user.user_code
+    def user_username(self, obj):
+        return obj.user.username
 
-    get_user_code.short_description = "User Code"
+    user_username.short_description = "Username"
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Professor, ProfessorAdmin)
 admin.site.register(EducationalAssistant, EducationalAssistantAdmin)
