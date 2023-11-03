@@ -30,7 +30,7 @@ class StudentFilterSet(django_filters.FilterSet):
 
     class Meta:
         model = Student
-        fields = ['major', 'department', 'is_not_soldier']
+        fields = ['major', 'department', 'is_soldier']
 
 
 
