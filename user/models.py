@@ -1,11 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
+
+import uuid
 
 from department.models import *
 
 from .validators import *
-
-import uuid
 
 GENDER_CHOICES = (
         ("M", "Male"),
@@ -31,51 +32,20 @@ POSITION_CHOICES = (
     ("L", "Lecturer"),
 )
 
-class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password = None, **extra_fields):
-        if not email:
-            raise ValueError("The Email Field Must Be Set")
-        email = self.normalize_email(email)
-        user = self.model(email = email, **extra_fields) 
-        user.set_password(password)
-        user.save()
-        return user
-
-    def create_superuser(self, email, password = None, **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser Must Have is_staff = True")
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser Must Have is_superuser = True")
-        return self.create_user(email, password, **extra_fields)
-
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractUser):
     id = models.UUIDField(primary_key = True, unique = True, default = uuid.uuid4, editable = False)
-    user_code = models.CharField(max_length = 14, unique = True, blank = True, null = True)
-    first_name = models.CharField(max_length = 255)
-    last_name = models.CharField(max_length = 255)
-    email = models.EmailField(unique = True)
-    national_code = models.CharField(max_length = 10, unique = True, validators = [national_code])
-    phone_number = models.CharField(max_length = 11, unique = True, validators = [phone_number])
-    gender = models.CharField(max_length = 1, choices = GENDER_CHOICES)
-    birth_date = models.DateField(validators = [birth_date])
+    username = models.CharField(max_length = 14, unique = True, blank = True, null = True)
+    first_name = models.CharField(max_length = 255, blank = True, null = True)
+    last_name = models.CharField(max_length = 255, blank = True, null = True)
+    national_code = models.CharField(max_length = 10, blank = True, null = True, validators = [national_code])
+    phone_number = models.CharField(max_length = 11, unique = True, blank = True, null = True, validators = [phone_number])
+    gender = models.CharField(max_length = 1, blank = True, null = True, choices = GENDER_CHOICES)
+    birth_date = models.DateField(blank = True, null = True, validators = [birth_date])
     # Profile Picture
     role = models.CharField(max_length = 3, choices = ROLE_CHOICES, blank = True, null = True)
-    is_staff = models.BooleanField(default = False)
-    is_active = models.BooleanField(default = True)
-
-    objects = CustomUserManager()
-
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first_name", "last_name", "national_code", "phone_number", "gender", "birth_date", "role"]
-
-    class Meta:
-        verbose_name = "User"
-        verbose_name_plural = "Users"
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.user_code})"
+        return f"{self.first_name} {self.last_name} ({self.username})"
 
 class Student(models.Model):
     user = models.OneToOneField("User", on_delete = models.DO_NOTHING, primary_key = True)
@@ -84,23 +54,23 @@ class Student(models.Model):
     degree = models.CharField(max_length = 1, choices = DEGREE_CHOICES, default = "B") 
     entry_year = models.CharField(max_length = 4)
     entry_semester = models.CharField(max_length = 255)
-    # passed_courses = ...
-    # passing_courses = ...
+    # Passed Courses 
+    # Passing Courses 
     average = models.DecimalField(max_digits = 4, decimal_places = 2, blank = True, null = True)
-    is_not_soldier = models.BooleanField(default = True)
+    is_soldier = models.BooleanField(default = False)
     military_status = models.CharField(max_length = 255, blank = True, null = True)
     supervisor = models.ForeignKey("Professor", on_delete = models.PROTECT)
-    # academic_years = ...
+    # Academic Years 
 
     class Meta:
         verbose_name = "Student"
         verbose_name_plural = "Students"
 
     def get_military_status(self):
-        if self.is_not_soldier:
-            return "Not Soldier"
-        else:
+        if self.is_soldier:
             return "Soldier"
+        else:
+            return "Not Soldier"
 
     def clean(self):
         super().clean()
@@ -116,7 +86,7 @@ class Professor(models.Model):
     major = models.ForeignKey(Major, on_delete = models.PROTECT)
     expertise = models.CharField(max_length = 255)
     position = models.CharField(max_length = 1, choices = POSITION_CHOICES, default = "P") 
-    # past_teaching_courses = ...
+    # Past Teaching Courses 
 
     class Meta:
         verbose_name = "Professor"

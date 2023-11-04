@@ -5,6 +5,7 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea
 
 # JIRA Plugin
 atlassian-ide-plugin.xml
@@ -31,16 +32,16 @@ Pipfile
 Pipfile.lock
 __pycache__
 
-# MyPy 
-.mypy_cache/ 
+# MyPy
+.mypy_cache/
 
-# Visual Studio Code # 
+# Visual Studio Code #
 .vscode
-.vscode/* 
-!.vscode/settings.json 
-!.vscode/tasks.json 
-!.vscode/launch.json 
-!.vscode/extensions.json 
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .history
 
 # Database
