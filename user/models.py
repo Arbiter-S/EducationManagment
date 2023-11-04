@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
+import uuid
+
 from department.models import *
 
 from .validators import *
-
-import uuid
 
 GENDER_CHOICES = (
         ("M", "Male"),
