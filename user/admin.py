@@ -5,11 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import *
 
-from . signals import *
-
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(required = False, widget = forms.TextInput())
-
     class Meta:
         model = User
         fields = UserCreationForm.Meta.fields + ("username",)
