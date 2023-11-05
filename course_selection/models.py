@@ -2,7 +2,6 @@ from django.db import models
 from user.models import Student
 from course.models import SemesterCourse
 
-
 CHOICES_BOOLEANO_SIM_NAO = (
     ("A", 'accepted'),
     ("D", 'decline'),
