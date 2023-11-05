@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from course.models import *
 
 import uuid
 
@@ -9,8 +10,8 @@ from department.models import *
 from .validators import *
 
 GENDER_CHOICES = (
-        ("M", "Male"),
-        ("F", "Female"),
+    ("M", "Male"),
+    ("F", "Female"),
 )
 
 ROLE_CHOICES = (
@@ -32,35 +33,38 @@ POSITION_CHOICES = (
     ("L", "Lecturer"),
 )
 
+
 class User(AbstractUser):
-    id = models.UUIDField(primary_key = True, unique = True, default = uuid.uuid4, editable = False)
-    username = models.CharField(max_length = 14, unique = True, blank = True, null = True)
-    first_name = models.CharField(max_length = 255, blank = True, null = True)
-    last_name = models.CharField(max_length = 255, blank = True, null = True)
-    national_code = models.CharField(max_length = 10, blank = True, null = True, validators = [national_code])
-    phone_number = models.CharField(max_length = 11, unique = True, blank = True, null = True, validators = [phone_number])
-    gender = models.CharField(max_length = 1, blank = True, null = True, choices = GENDER_CHOICES)
-    birth_date = models.DateField(blank = True, null = True, validators = [birth_date])
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
+    username = models.CharField(max_length=14, unique=True, blank=True, null=True)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    national_code = models.CharField(max_length=10, blank=True, null=True, validators=[national_code])
+    phone_number = models.CharField(max_length=11, unique=True, blank=True, null=True, validators=[phone_number])
+    gender = models.CharField(max_length=1, blank=True, null=True, choices=GENDER_CHOICES)
+    birth_date = models.DateField(blank=True, null=True, validators=[birth_date])
     # Profile Picture
-    role = models.CharField(max_length = 3, choices = ROLE_CHOICES, blank = True, null = True)
+    role = models.CharField(max_length=3, choices=ROLE_CHOICES, blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.username})"
 
+
 class Student(models.Model):
-    user = models.OneToOneField("User", on_delete = models.DO_NOTHING, primary_key = True)
-    department = models.ForeignKey(Department, on_delete = models.PROTECT)
-    major = models.ForeignKey(Major, on_delete = models.PROTECT)
-    degree = models.CharField(max_length = 1, choices = DEGREE_CHOICES, default = "B") 
-    entry_year = models.CharField(max_length = 4)
-    entry_semester = models.CharField(max_length = 255)
-    # Passed Courses 
-    # Passing Courses 
-    average = models.DecimalField(max_digits = 4, decimal_places = 2, blank = True, null = True)
-    is_soldier = models.BooleanField(default = False)
-    military_status = models.CharField(max_length = 255, blank = True, null = True)
-    supervisor = models.ForeignKey("Professor", on_delete = models.PROTECT)
-    # Academic Years 
+    user = models.OneToOneField("User", on_delete=models.DO_NOTHING, primary_key=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    major = models.ForeignKey(Major, on_delete=models.PROTECT)
+    degree = models.CharField(max_length=1, choices=DEGREE_CHOICES, default="B")
+    entry_year = models.CharField(max_length=4)
+    entry_semester = models.CharField(max_length=255)
+    passed_courses = models.ManyToManyField(ApprovedCourse, related_name="student_passed_course", null=True, blank=True)
+    passing_courses = models.ManyToManyField(SemesterCourse, related_name="student_passing_course", null=True,
+                                             blank=True)
+    average = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    is_soldier = models.BooleanField(default=False)
+    military_status = models.CharField(max_length=255, blank=True, null=True)
+    supervisor = models.ForeignKey("Professor", on_delete=models.PROTECT)
+    academic_terms = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Student"
@@ -74,18 +78,21 @@ class Student(models.Model):
 
     def clean(self):
         super().clean()
-        if Professor.objects.filter(user = self.user).exists() or EducationalAssistant.objects.filter(user = self.user).exists() or ITAdmin.objects.filter(user = self.user).exists():
+        if Professor.objects.filter(user=self.user).exists() or EducationalAssistant.objects.filter(
+                user=self.user).exists() or ITAdmin.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
 
+
 class Professor(models.Model):
-    user = models.OneToOneField("User", on_delete = models.DO_NOTHING, primary_key = True)
-    department = models.ForeignKey(Department, on_delete = models.PROTECT)
-    major = models.ForeignKey(Major, on_delete = models.PROTECT)
-    expertise = models.CharField(max_length = 255)
-    position = models.CharField(max_length = 1, choices = POSITION_CHOICES, default = "P") 
+    user = models.OneToOneField("User", on_delete=models.DO_NOTHING, primary_key=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    major = models.ForeignKey(Major, on_delete=models.PROTECT)
+    expertise = models.CharField(max_length=255)
+    position = models.CharField(max_length=1, choices=POSITION_CHOICES, default="P")
+
     # Past Teaching Courses 
 
     class Meta:
@@ -94,16 +101,18 @@ class Professor(models.Model):
 
     def clean(self):
         super().clean()
-        if Student.objects.filter(user = self.user).exists() or EducationalAssistant.objects.filter(user = self.user).exists() or ITAdmin.objects.filter(user = self.user).exists():
+        if Student.objects.filter(user=self.user).exists() or EducationalAssistant.objects.filter(
+                user=self.user).exists() or ITAdmin.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
 
+
 class EducationalAssistant(models.Model):
-    user = models.OneToOneField("User", on_delete = models.DO_NOTHING, primary_key = True)
-    department = models.ForeignKey(Department, on_delete = models.PROTECT)
-    major = models.ForeignKey(Major, on_delete = models.PROTECT)
+    user = models.OneToOneField("User", on_delete=models.DO_NOTHING, primary_key=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    major = models.ForeignKey(Major, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Educational Assistant"
@@ -111,14 +120,16 @@ class EducationalAssistant(models.Model):
 
     def clean(self):
         super().clean()
-        if Student.objects.filter(user = self.user).exists() or Professor.objects.filter(user = self.user).exists() or ITAdmin.objects.filter(user = self.user).exists():
+        if Student.objects.filter(user=self.user).exists() or Professor.objects.filter(
+                user=self.user).exists() or ITAdmin.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
 
+
 class ITAdmin(models.Model):
-    user = models.OneToOneField("User", on_delete = models.DO_NOTHING, primary_key = True)
+    user = models.OneToOneField("User", on_delete=models.DO_NOTHING, primary_key=True)
 
     class Meta:
         verbose_name = "IT Admin"
@@ -126,7 +137,8 @@ class ITAdmin(models.Model):
 
     def clean(self):
         super().clean()
-        if Student.objects.filter(user = self.user).exists() or Professor.objects.filter(user = self.user).exists() or EducationalAssistant.objects.filter(user = self.user).exists():
+        if Student.objects.filter(user=self.user).exists() or Professor.objects.filter(
+                user=self.user).exists() or EducationalAssistant.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):

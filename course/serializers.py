@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from .models import ApprovedCourse
+from .models import ApprovedCourse, SemesterCourse
 
-class ApprovedCoueseSerializer(serializers.ModelSerializer):
 
+class ApprovedCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ApprovedCourse
         fields = ['name', 'department', 'type', 'unit', 'prerequisite', 'corequisite']
+
+
+class SemesterCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SemesterCourse
+        fields = "__all__"
