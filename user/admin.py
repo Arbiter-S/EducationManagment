@@ -63,6 +63,8 @@ class StudentAdmin(admin.ModelAdmin):
                 "degree",
                 "entry_year",
                 "entry_semester",
+                "passed_courses",
+                "passing_courses",
                 "average",
                 "is_soldier",
                 "military_status",
