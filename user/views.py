@@ -11,14 +11,14 @@ from .models import *
 from .serializer import *
 
 class StudentListAPIView(ListCreateAPIView):
-    permission_classes = [IsAuthenticated, IsITAdmin]
+    # permission_classes = [IsAuthenticated, IsITAdmin]
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = StudentFilterSet
 
 class StudentAPIDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsITAdmin]
+    # permission_classes = [IsAuthenticated, IsITAdmin]
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
