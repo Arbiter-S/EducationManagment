@@ -23,3 +23,12 @@ class IsITAdminOrIsEducationalAssistantOrIsSupervisor(BasePermission):
         user = request.user.is_authenticated and request.user.role == "ADM" or request.user.pk == student_supervisor.pk \
                or request.user.educationalassistant.department.name == student_department.name
         return user
+
+
+class IsITAdminOrIsStudent(BasePermission):
+    message = "Permission Denied, You don't have any access!"
+
+    def has_permission(self, request, view):
+        student_pk = request.parser_context['kwargs']['pk']
+        user = request.user.pk == student_pk or request.user.role == "ADM"
+        return user

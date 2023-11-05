@@ -64,8 +64,7 @@ class Student(models.Model):
     is_soldier = models.BooleanField(default=False)
     military_status = models.CharField(max_length=255, blank=True, null=True)
     supervisor = models.ForeignKey("Professor", on_delete=models.PROTECT)
-
-    # Academic Years
+    academic_terms = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Student"
