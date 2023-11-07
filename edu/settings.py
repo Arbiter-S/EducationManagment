@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "department.apps.DepartmentConfig",
     "course.apps.CourseConfig",
     "django_filters",
+    "course_selection.apps.CourseSelectionConfig",
 ]
 
 MIDDLEWARE = [
