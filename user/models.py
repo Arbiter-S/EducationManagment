@@ -1,6 +1,4 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.validators import UnicodeUsernameValidator
 from course.models import *
 
 import uuid
@@ -51,19 +49,19 @@ class User(AbstractUser):
 
 
 class Student(models.Model):
-    user = models.OneToOneField("User", on_delete = models.DO_NOTHING, primary_key = True)
-    department = models.ForeignKey(Department, on_delete = models.PROTECT)
-    major = models.ForeignKey(Major, on_delete = models.PROTECT)
-    degree = models.CharField(max_length = 1, choices = DEGREE_CHOICES, default = "B") 
-    entry_year = models.CharField(max_length = 4)
-    entry_semester = models.CharField(max_length = 255)
-    passed_courses = models.ManyToManyField('course.ApprovedCourse')
-    passing_courses = models.ManyToManyField('course.SemesterCourse')
-    average = models.DecimalField(max_digits = 4, decimal_places = 2, blank = True, null = True)
-    is_soldier = models.BooleanField(default = False)
-    military_status = models.CharField(max_length = 255, blank = True, null = True)
-    supervisor = models.ForeignKey("Professor", on_delete = models.PROTECT)
-    # Academic Years 
+    user = models.OneToOneField("User", on_delete=models.DO_NOTHING, primary_key=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT)
+    major = models.ForeignKey(Major, on_delete=models.PROTECT)
+    degree = models.CharField(max_length=1, choices=DEGREE_CHOICES, default="B")
+    entry_year = models.CharField(max_length=4)
+    entry_semester = models.CharField(max_length=255)
+    passed_courses = models.ManyToManyField(ApprovedCourse, related_name="student_passed_course")
+    passing_courses = models.ManyToManyField(SemesterCourse, related_name="student_passing_course")
+    average = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    is_soldier = models.BooleanField(default=False)
+    military_status = models.CharField(max_length=255, blank=True, null=True)
+    supervisor = models.ForeignKey("Professor", on_delete=models.PROTECT)
+    academic_terms = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Student"
