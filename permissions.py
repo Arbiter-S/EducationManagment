@@ -45,36 +45,8 @@ class IsITAdminOrIsEducationalAssistant(BasePermission):
 
             if user_role == 'AST':
                 assistant = EducationalAssistant.objects.get(pk=request.user.pk)
-                print(assistant)
                 department = assistant.department
-                print(department)
                 if department == request.data.get('department'):
-                    print(request.data.get('department'))
                     return True
 
-
-
         return False
-
-
-# {
-#     "name": "",
-#     "department": "",
-#     "exam_date": null,
-#     "exam_location": "",
-#     "class_days": null,
-#     "class_end_time": null,
-#     "class_start_time": null,
-#     "capacity": null,
-#     "approved_course": null,
-#     "professor": null
-# }
-#enginer edutional assitant
-#AST-3055039170
-
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5MjkxNDA1LCJpYXQiOjE2OTkyOTA1MDUsImp0aSI6IjQ3NTNjMDZlNzUwMDQ2ZGM4YmJiMmMwNDA0NzAwZDBiIiwidXNlcl9pZCI6Ijk2OTk2YjE1LTlmOTYtNDhjMS1iNDE3LTk2YzdlMzM4ODFjZiJ9.zOSlnyKQNS5cYKkWNAgMxi7R_OHWPpt6d0yp_nhbSNE
-
-#art assistant
-# AST-5913821171
-
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5MjkxODEwLCJpYXQiOjE2OTkyOTA5MTAsImp0aSI6IjljZTFjNjQ3ZjQyNDRhM2NhOTg1OTZkYmRmNWRmMjlhIiwidXNlcl9pZCI6IjU2YmE4MDc3LWE4MWEtNDA2NC1hMTNmLWFiZWM1ODY1Y2Y3OSJ9.4ATmVQtR__8qsuyVMeUTqZo6nTTGDL2dnE-sLSJMPek

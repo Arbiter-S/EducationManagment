@@ -4,6 +4,7 @@ from rest_framework.generics import ListCreateAPIView, CreateAPIView, RetrieveUp
 from rest_framework.permissions import IsAuthenticated
 from permissions import IsITAdminOrIsEducationalAssistant
 from .serializers import *
+from .models import *
 
 
 class ApprovedCourseViewSet(viewsets.ModelViewSet):
@@ -30,6 +31,6 @@ class SemesterRUD(RetrieveUpdateDestroyAPIView):
     serializer_class = SemesterCourseSerializer
 
     def get_permissions(self):
-        if self.request.method in ["PUY", "DELETE"]:
+        if self.request.method in ["PUT", "DELETE"]:
             return [permission() for permission in self.permission_classes]
         return []
