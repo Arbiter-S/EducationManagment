@@ -1,6 +1,7 @@
 from django.db import models
-from user.models import *
+
 from course.models import *
+from user.models import *
 
 CHOICES_BOOLEANO_SIM_NAO = (
     ("A", 'accepted'),

@@ -1,6 +1,7 @@
 from django.db import models
-from user.models import Student, Professor
+
 from course.models import ApprovedCourse
+from user.models import Professor, Student
 
 
 class Term(models.Model):

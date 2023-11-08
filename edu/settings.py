@@ -1,5 +1,5 @@
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "department.apps.DepartmentConfig",
     "course.apps.CourseConfig",
     "django_filters",
+    "drf_spectacular",
     "course_selection.apps.CourseSelectionConfig",
 ]
 
@@ -85,6 +86,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "University Unit Selection",
+    "DESCRIPTION": "API For The University Unit Selection Django Application",
+    "VERSION": "1.0.0"
 }
 
 SIMPLE_JWT = {

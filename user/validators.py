@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 
+
 def national_code(value):
     if len(value) != 10:
         raise ValidationError("Invalid National Code")
