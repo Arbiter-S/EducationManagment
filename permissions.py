@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-from user.models import ITAdmin, Student, EducationalAssistant
+from user.models import EducationalAssistant, ITAdmin, Student
 
 
 class IsITAdmin(BasePermission):

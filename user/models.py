@@ -1,8 +1,8 @@
-from django.contrib.auth.models import AbstractUser
-from course.models import *
-
 import uuid
 
+from django.contrib.auth.models import AbstractUser
+
+from course.models import *
 from department.models import *
 
 from .validators import *

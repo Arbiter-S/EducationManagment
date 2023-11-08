@@ -1,8 +1,8 @@
+import django_filters
 from rest_framework import serializers
 
-import django_filters
+from .models import *
 
-from .models import  *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
