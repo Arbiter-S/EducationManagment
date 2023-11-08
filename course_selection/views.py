@@ -1,12 +1,13 @@
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 import jdatetime
-import math
-from user.models import Student
+from django.db import transaction
 from course.serializers import *
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from permissions import *
+from .serializer import *
 
 
 class StudentPassedCourseReport(APIView):
@@ -43,3 +44,24 @@ class StudentRemainingTerms(APIView):
                                                                                               spring_semester)
 
         return Response({"remain semester": student.academic_terms - sum_of_semester})
+
+
+class CreateRegisterCourse(ListCreateAPIView):
+    queryset = UnitRegisterRequest.objects.all()
+    serializer_class = UnitRegisterRequestSerializer
+
+    # permission_classes =
+
+    def perform_create(self, serializer):
+        student = self.get_student()
+        serializer.save(student=student)
+
+    def get_student(self):
+        return get_object_or_404(Student, pk=self.kwargs['pk'])
+
+
+class SubmitRegisterCourse(APIView):
+    @transaction.atomic
+    def post(self, request, pk):
+        pass
+        # Check if the prerequisite course is in an accepted state
