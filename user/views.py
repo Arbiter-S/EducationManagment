@@ -1,12 +1,10 @@
 from rest_framework.generics import *
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import AccessToken
 
 from django_filters.rest_framework import DjangoFilterBackend
 
 from permissions import *
 
-from .models import *
 
 from .serializer import *
 
