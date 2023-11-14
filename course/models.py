@@ -38,7 +38,7 @@ class SemesterCourse(models.Model):
     class_end_time = models.TimeField(null=True, blank=True)
     class_start_time = models.TimeField(null=True, blank=True)
     approved_course = models.ForeignKey("ApprovedCourse", on_delete=models.CASCADE)
-    professor = models.ForeignKey("user.Professor", on_delete=models.CASCADE, null=True, blank=True)
+    professor = models.ForeignKey("user.Professor", on_delete=models.DO_NOTHING, null=True, blank=True)
     capacity = models.PositiveIntegerField()
 
     def __str__(self):

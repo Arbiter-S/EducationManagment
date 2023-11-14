@@ -12,7 +12,7 @@ from .serializers import *
 
 class ApprovedCourseViewSet(viewsets.ModelViewSet):
     queryset = ApprovedCourse.objects.all()
-    serializer_class = ApprovedCoueseSerializer
+    serializer_class = ApprovedCourseSerializer
 
 
 class SemesterCourseAPICreateView(ListCreateAPIView):

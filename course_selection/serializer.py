@@ -6,5 +6,5 @@ from .models import UnitRegisterRequest
 class UnitRegisterRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = UnitRegisterRequest
-        fields = ["semester_course", "request_answer"]
+        fields = ["student", "semester_course"]
         extra_kwargs = {"request_answer": {"read_only": True}}
