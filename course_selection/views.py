@@ -10,6 +10,8 @@ from course.serializers import *
 from permissions import *
 from course.serializers import ApprovedCourseSerializer, SemesterCourseSerializer
 from .serializer import *
+from .models import *
+from university.models import *
 
 
 class StudentPassedCourseReport(APIView):
@@ -49,14 +51,18 @@ class StudentRemainingTerms(APIView):
 
 
 class CreateSubmitRegisterCourse(APIView):
-    def get(self, request, pk):
+    permission_classes = [IsStudentRegisterInCurrentTerm]
+
+    def get(self, request, pk, semester_code):
         try:
             student = Student.objects.get(pk=pk)
         except Student.DoesNotExist:
             return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        semester_code = Term.objects.get(semester_code=semester_code)
+
         # Get the UnitRegisterRequest objects for the specific student
-        unit_register_requests = UnitRegisterRequest.objects.filter(student=student)
+        unit_register_requests = UnitRegisterRequest.objects.filter(student=student, semester_code=semester_code)
 
         # Serialize the data
         serializer = UnitRegisterRequestSerializer(unit_register_requests, many=True)
@@ -69,14 +75,16 @@ class CreateSubmitRegisterCourse(APIView):
                         status=status.HTTP_200_OK)
 
     @transaction.atomic()
-    def post(self, request, pk):
+    def post(self, request, pk, semester_code):
         try:
             student = Student.objects.get(pk=pk)
+
         except Student.DoesNotExist:
             return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+        semester = Term.objects.get(semester_code=semester_code)
 
-        # Assuming your request data looks like this: {"semester_course": [1, 2, 3]}
-        course_ids = request.data.get("semester_course", [])
+        # Assuming your request data looks like this: {"courses": [1, 2, 3]}
+        course_ids = request.data.get("courses", [])
 
         if len(course_ids) != len(set(course_ids)):
             return Response({"error": "Duplicate courses are not allowed in a single registration request"},
@@ -89,7 +97,6 @@ class CreateSubmitRegisterCourse(APIView):
             for course_id in course_ids:
                 course = SemesterCourse.objects.get(pk=course_id)
                 prerequisites = course.approved_course.prerequisite.all()
-                print(prerequisites)
 
                 if prerequisites:
                     if not student.passed_courses.filter(id__in=prerequisites).exists():
@@ -102,8 +109,41 @@ class CreateSubmitRegisterCourse(APIView):
                         {"error": "Duplicate courses are not allowed across multiple registration requests"},
                         status=status.HTTP_400_BAD_REQUEST)
 
+                if course.capacity == 0:
+                    print("True")
+                    return Response(
+                        {"error": "This course doesn't have capacity:) "},
+                        status=status.HTTP_400_BAD_REQUEST)
+                course.capacity -= 1
+                course.save()
+
+                # Check student's average for checking limit of units
+                previous_term = Term.objects.exclude(semester_code=semester_code).last()
+
+                if previous_term is None:
+                    student_average = 0
+                else:
+                    student_average = StudentSemester.objects.get(student=student,
+                                                                  term_no=previous_term).previous_average()
+
+                student_semester = StudentSemester.objects.get(student=student)
+                units = student_semester.sum_of_unit + course.approved_course.unit
+                if student_average < 17 < units:
+                    return Response(
+                        {"error": "Your average is less than 17 and you can not select more than 17 units!"},
+                        status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    if units > 24:
+                        return Response(
+                            {"error": "You can not select more than 24 units!"}
+                        )
+
                 # Create a new UnitRegisterRequest object for the student
-                unit_register_request = UnitRegisterRequest.objects.create(student=student, request_answer="P")
+                unit_register_request = UnitRegisterRequest.objects.create(student=student, semester_code=semester,
+                                                                           request_answer="P")
+                # unit_count = StudentSemester.objects.get(student=student).sum_of_unit
+                student_semester.sum_of_unit += course.approved_course.unit
+                student_semester.save()
 
                 # Add selected courses to the UnitRegisterRequest
                 unit_register_request.semester_course.set(course_ids)
@@ -113,46 +153,3 @@ class CreateSubmitRegisterCourse(APIView):
                 serializer = UnitRegisterRequestSerializer(unit_register_request)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-# class CreateRegisterCourse(ListCreateAPIView):
-#     # queryset = UnitRegisterRequest.objects.all()
-#     serializer_class = UnitRegisterRequestSerializer
-#
-#     def perform_create(self, serializer):
-#         student = self.get_student()
-#         serializer.save(student=student)
-#
-#     def get_student(self):
-#         return get_object_or_404(Student, pk=self.kwargs['pk'])
-#
-#     @transaction.atomic
-#     def post(self, request, *args, **kwargs):
-#         # Deserialize the request data using the serializer
-#         serializer = UnitRegisterRequestSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)  # Ensure the data is valid
-#         semester_course_data = serializer.validated_data.get("semester_course")
-#
-#         course_ids = [course.id for course in semester_course_data]
-#
-#         print(course_ids)
-#
-#         return Response({"status": "ok"})
-
-
-class SubmitRegisterCourse(APIView):
-    pass
-
-    # @transaction.atomic
-    def post(self, request, pk):
-        student = get_object_or_404(Student, pk=pk)
-        serializer = UnitRegisterRequestSerializer(data=request.data)
-        if serializer.is_valid():
-            unit_register_request = UnitRegisterRequest(student=student)
-            unit_register_request.save()
-            # instance
-            # serializer.save(instance=unit_register_request)
-            print(serializer.data)
-
-            return Response({"status": "ok"})
-        return Response(serializer.errors, status=400)

@@ -1,6 +1,7 @@
 from rest_framework.permissions import BasePermission
 
 from user.models import EducationalAssistant, ITAdmin, Student
+from university.models import *
 
 
 class IsITAdmin(BasePermission):
@@ -23,6 +24,19 @@ class IsITAdminOrIsEducationalAssistantOrIsSupervisor(BasePermission):
         user = request.user.is_authenticated and request.user.role == "ADM" or request.user.pk == student_supervisor.pk \
                or request.user.educationalassistant.department.name == student_department.name
         return user
+
+
+class IsStudentRegisterInCurrentTerm(BasePermission):
+    message = "You did not register in this term"
+
+    def has_permission(self, request, view):
+        student_pk = request.parser_context['kwargs']['pk']
+        student = Student.objects.get(pk=student_pk)
+        term_id = request.parser_context['kwargs']['semester_code']
+
+        is_registered = Term.objects.filter(pk=term_id, students=student).exists()
+
+        return is_registered
 
 
 class IsITAdminOrIsStudent(BasePermission):
