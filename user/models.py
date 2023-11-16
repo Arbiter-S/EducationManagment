@@ -58,6 +58,7 @@ class Student(models.Model):
     passed_courses = models.ManyToManyField(ApprovedCourse, related_name="student_passed_course", blank=True)
     passing_courses = models.ManyToManyField(SemesterCourse, related_name="student_passing_course", blank=True)
     average = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    is_new_student = models.BooleanField(default=True)
     is_soldier = models.BooleanField(default=False)
     military_status = models.CharField(max_length=255, blank=True, null=True)
     supervisor = models.ForeignKey("Professor", on_delete=models.DO_NOTHING)
@@ -66,6 +67,11 @@ class Student(models.Model):
     class Meta:
         verbose_name = "Student"
         verbose_name_plural = "Students"
+
+    def get_student_status(self):
+        if self.is_new_student:
+            return True
+        return False
 
     def get_military_status(self):
         if self.is_soldier:

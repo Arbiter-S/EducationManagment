@@ -12,11 +12,6 @@ def set_pass_or_fail(sender, instance, created, **kwargs):
             instance.pass_or_fail = "P"
             instance.save()
             instance.student.passed_courses.add(instance.course)
-
-            # # Add the course to the student's passed_courses
-            # student = instance.student
-            # student.passed_courses.add(instance.course)
-            # student.save()
         else:
             instance.pass_or_fail = "F"
             instance.save()

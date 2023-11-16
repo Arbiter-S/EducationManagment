@@ -7,6 +7,12 @@ from .models import *
 class UnitRegisterRequest(admin.ModelAdmin):
     pass
 
+
 @admin.register(StudentCourse)
 class StudentCourseAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(StudentSemester)
+class StudentSemesterAdmin(admin.ModelAdmin):
     pass
