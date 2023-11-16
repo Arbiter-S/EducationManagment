@@ -127,12 +127,13 @@ class CreateSubmitRegisterCourse(APIView):
                                                                   term_no=previous_term).previous_average()
 
                 student_semester = StudentSemester.objects.get(student=student)
-                if student_average < 17 < student_semester.sum_of_unit:
+                units = student_semester.sum_of_unit + course.approved_course.unit
+                if student_average < 17 < units:
                     return Response(
                         {"error": "Your average is less than 17 and you can not select more than 17 units!"},
                         status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    if student_semester.sum_of_unit > 24:
+                    if units > 24:
                         return Response(
                             {"error": "You can not select more than 24 units!"}
                         )
