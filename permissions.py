@@ -50,3 +50,33 @@ class IsITAdminOrIsEducationalAssistant(BasePermission):
                     return True
 
         return False
+
+
+class IsAssistant(BasePermission):
+    message = "Permission Denied. You are not an assistant!"
+
+    def has_permission(self, request, view):
+        if request.user.is_authenticated:
+            user_role = request.user.role
+
+            if user_role == 'AST':
+                return True
+
+        return False
+
+
+class IsOwner(BasePermission):
+    message = "Permission Denied. You are not the owner!"
+
+    def has_permission(self, request, view):
+        if request.user.is_authenticated:
+            current_user_pk = str(request.user.pk)
+            requested_profile_pk = str(view.kwargs.get('pk'))
+            if requested_profile_pk == current_user_pk:
+                return True
+
+            if request.data.get('pk') == current_user_pk:
+                return True
+
+        else:
+            return False

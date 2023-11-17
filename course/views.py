@@ -1,10 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
-from rest_framework.generics import ListCreateAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from permissions import IsITAdminOrIsEducationalAssistant
+from permissions import *
 from .serializers import *
 from .models import *
+from user.models import *
 
 
 class ApprovedCourseViewSet(viewsets.ModelViewSet):
@@ -34,3 +35,27 @@ class SemesterRUD(RetrieveUpdateDestroyAPIView):
         if self.request.method in ["PUT", "DELETE"]:
             return [permission() for permission in self.permission_classes]
         return []
+
+
+class CourseListView(ListAPIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+    serializer_class = StudentCourseReadSerializer
+
+    def get_queryset(self):
+        user_instance = self.request.user
+        student_instance = Student.objects.get(pk=user_instance.pk)
+        passing_courses = student_instance.passing_courses
+
+        return passing_courses
+
+
+class ExamsListView(ListAPIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+    serializer_class = ExamsSerializer
+
+    def get_queryset(self):
+        user_instance = self.request.user
+        student_instance = Student.objects.get(pk=user_instance.pk)
+        passing_courses = student_instance.passing_courses
+
+        return passing_courses

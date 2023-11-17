@@ -10,4 +10,6 @@ urlpatterns = [
     path('', include(subject_router.urls)),
     path('courses/', SemesterCourseAPICreateView.as_view(), name='SemesterCreateList'),
     path('courses/<int:pk>', SemesterRUD.as_view(), name='SemesterRUD'),
+    path('student/<str:pk>/class-schedule/', CourseListView.as_view(), name='SemesterList'),
+    path('student/<str:pk>/exam-schedule/', ExamsListView.as_view(), name='ExamList'),
 ]
