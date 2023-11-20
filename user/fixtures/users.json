@@ -1,0 +1,428 @@
+[
+    {
+        "model":"user.user",
+        "pk":"03ebe6ff-7a52-4e56-9edc-f5bf3414e247",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$Ek32pBXMkV6lxLZOiALBf6$GJtA31adFFg/V0km0cgzQnNs2mOAjcTBmTvt3JRV2mA=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:39:24.516Z",
+           "username":"AST-8440622241",
+           "first_name":"test assistant 1 name",
+           "last_name":"test assistant  2 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"F",
+           "birth_date":null,
+           "role":"AST",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"100f600d-9029-4595-a134-e5dbc2335c4d",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$qsXC8z0rvN9io11jSMswAI$e+ox2NljlJA/OewhxHNdRHtFDKy+EjB/YAE1HdHITPM=",
+           "last_login":"2023-11-10T09:16:33.250Z",
+           "is_superuser":true,
+           "email":"reza@admin.com",
+           "is_staff":true,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:16:17.109Z",
+           "username":"reza",
+           "first_name":null,
+           "last_name":null,
+           "national_code":null,
+           "phone_number":null,
+           "gender":null,
+           "birth_date":null,
+           "role":null,
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"10f41313-139d-402a-ae66-58083b489006",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$ff6ifcVRlEAKexMtBdLiTn$kCvMN+7t6RW2V3G5Skr+ZwRwnN/NQmK9Np0H8mS/dGo=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@p2.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:34:54.631Z",
+           "username":"PRO-5832874559",
+           "first_name":"test prof 2 name",
+           "last_name":"test prof 2 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"F",
+           "birth_date":null,
+           "role":"PRO",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"1b9faeef-6117-43fe-a71c-3b4137a310c8",
+        "fields":{
+           "password":"reza1234",
+           "last_login":null,
+           "is_superuser":true,
+           "email":"salam@gmail.com",
+           "is_staff":true,
+           "is_active":true,
+           "date_joined":"2023-11-06T09:44:32.402Z",
+           "username":"rezaaaa",
+           "first_name":null,
+           "last_name":null,
+           "national_code":null,
+           "phone_number":"09378146375",
+           "gender":null,
+           "birth_date":null,
+           "role":null,
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"44d1571a-841e-4ff8-b5ec-6c3d2ed66a1f",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$EFVjeor8yeylFlzweUXz6C$YrXkAvyBTv1wL0LrxAKSxtR0i2n53blLgfWvWZFy4N4=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T10:04:05.597Z",
+           "username":"PRO-7833017107",
+           "first_name":"test prof 4 name",
+           "last_name":"test student 4 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"M",
+           "birth_date":null,
+           "role":"PRO",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"48e057f3-b7f6-420d-ab2f-962db635ff44",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$OrrjiPzfuIstPBfciXMerN$SxBIx5n8BvBaCtG8LXmcM5Bm0GRG8FO4k++SyV0mB6g=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@p1.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:34:15.943Z",
+           "username":"PRO-1462857902",
+           "first_name":"test prof 1 name",
+           "last_name":"test prof 1 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"M",
+           "birth_date":null,
+           "role":"PRO",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"85cee59a-40a8-4f24-820a-d4cab56238d9",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$7mMsvIiR3AZ9SBjcATEJp1$wAhTHdIXdTBL7UT0CvAYqzi4q+eJsWwBljGvAZ0YZJg=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@p5.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T10:01:40.962Z",
+           "username":"PRO-4934481735",
+           "first_name":"test prof 5 name",
+           "last_name":"test prof 5 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"M",
+           "birth_date":null,
+           "role":"PRO",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"af6659ac-3a59-4278-9171-61ba5e5920fb",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$SvUiZxBmIHKXu8iQwCaFHa$BX0g2PgOPjihMFTSrW7IONP43F1DmJL2o48ZL7rVLYc=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@s2.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:32:26.652Z",
+           "username":"STU-7170472106",
+           "first_name":"test student 2 name",
+           "last_name":"test student 2 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"F",
+           "birth_date":null,
+           "role":"STU",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"b50f60a0-e479-40b5-8383-2cbcf5f7f9f5",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$ujNMDUskCvqQSynwQItI3h$A7nxU7rIy60Jk0o7QtkawutdeQHdYLuzqeWtvUWcsTA=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@a1.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:38:35.735Z",
+           "username":"AST-6757598294",
+           "first_name":"test assistant 1  name",
+           "last_name":"test assistant 1  lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"M",
+           "birth_date":null,
+           "role":"AST",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"cc6fc436-7f91-4a84-b8ea-1c562c283ae1",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$qoj19JlrNbYJweVvMNzsC4$+ENIu+y08ZNUZIfjMjiUuDs60pgysjC1hrAxU3Mt6js=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@s1.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:31:38.503Z",
+           "username":"STU-9407732988",
+           "first_name":"test student 1 name",
+           "last_name":"test student 1 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"M",
+           "birth_date":null,
+           "role":"STU",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"dd459a76-8fc6-4b71-892a-900f6e356c67",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$NEzBONCr2N6hPXEZIfh6FN$zlUDkRUOEHtqJjt3HZ12yd7AOH/JieOODjtZBZaeqvs=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"test@p3.com",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:58:52.864Z",
+           "username":"PRO-4932998690",
+           "first_name":"test prof 3 name",
+           "last_name":"test prof 3 lastname",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"M",
+           "birth_date":null,
+           "role":"PRO",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.user",
+        "pk":"f0ba2a04-21ca-4dfb-9a98-81d5d7269de6",
+        "fields":{
+           "password":"pbkdf2_sha256$600000$956GsuffRBB7BOspyhm7Jn$jvopZGWJdqZsW/lbry5k9gfBRjMKBJq0+6g1vPm/8jU=",
+           "last_login":null,
+           "is_superuser":false,
+           "email":"",
+           "is_staff":false,
+           "is_active":true,
+           "date_joined":"2023-11-10T09:40:35.253Z",
+           "username":"ADM-5487893228",
+           "first_name":"test admin 1 name",
+           "last_name":"test admin 2 name",
+           "national_code":null,
+           "phone_number":null,
+           "gender":"F",
+           "birth_date":null,
+           "role":"ADM",
+           "groups":[
+              
+           ],
+           "user_permissions":[
+              
+           ]
+        }
+     },
+     {
+        "model":"user.student",
+        "pk":"af6659ac-3a59-4278-9171-61ba5e5920fb",
+        "fields":{
+           "department":1,
+           "major":1,
+           "degree":"B",
+           "entry_year":"2023",
+           "entry_semester":"99",
+           "average":null,
+           "is_soldier":false,
+           "military_status":null,
+           "supervisor":"10f41313-139d-402a-ae66-58083b489006",
+           "academic_terms":8,
+           "passed_courses":[
+              1
+           ],
+           "passing_courses":[
+              2,
+              4
+           ]
+        }
+     },
+     {
+        "model":"user.student",
+        "pk":"cc6fc436-7f91-4a84-b8ea-1c562c283ae1",
+        "fields":{
+           "department":1,
+           "major":1,
+           "degree":"B",
+           "entry_year":"2023",
+           "entry_semester":"100",
+           "average":null,
+           "is_soldier":false,
+           "military_status":"Not Soldier",
+           "supervisor":"10f41313-139d-402a-ae66-58083b489006",
+           "academic_terms":8,
+           "passed_courses":[
+              4
+           ],
+           "passing_courses":[
+              3
+           ]
+        }
+     },
+     {
+        "model":"user.professor",
+        "pk":"10f41313-139d-402a-ae66-58083b489006",
+        "fields":{
+           "department":1,
+           "major":1,
+           "expertise":"database",
+           "position":"S"
+        }
+     },
+     {
+        "model":"user.professor",
+        "pk":"44d1571a-841e-4ff8-b5ec-6c3d2ed66a1f",
+        "fields":{
+           "department":3,
+           "major":2,
+           "expertise":"it management",
+           "position":"P"
+        }
+     },
+     {
+        "model":"user.professor",
+        "pk":"48e057f3-b7f6-420d-ab2f-962db635ff44",
+        "fields":{
+           "department":1,
+           "major":1,
+           "expertise":"ecomerce",
+           "position":"P"
+        }
+     },
+     {
+        "model":"user.professor",
+        "pk":"85cee59a-40a8-4f24-820a-d4cab56238d9",
+        "fields":{
+           "department":2,
+           "major":4,
+           "expertise":"african geo",
+           "position":"P"
+        }
+     },
+     {
+        "model":"user.professor",
+        "pk":"dd459a76-8fc6-4b71-892a-900f6e356c67",
+        "fields":{
+           "department":1,
+           "major":1,
+           "expertise":"algorithm",
+           "position":"P"
+        }
+     },
+     {
+        "model":"user.itadmin",
+        "pk":"1b9faeef-6117-43fe-a71c-3b4137a310c8",
+        "fields":{
+           
+        }
+     }
+]

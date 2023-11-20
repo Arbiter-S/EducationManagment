@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from permissions import *
 
 from .models import Department
-
 from .serializer import *
+
 
 class FacultyAPIListView(ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsITAdmin]

@@ -1,10 +1,11 @@
 from django.db import models
-from user.models import Student, Professor
+
 from course.models import ApprovedCourse
+from user.models import Professor, Student
 
 
 class Term(models.Model):
-    semester_code = models.CharField(max_length=5, unique=True, primary_key=True)
+    semester_code = models.IntegerField(unique=True, primary_key=True)
     students = models.ManyToManyField(Student)
     lecturers = models.ManyToManyField(Professor)
     course = models.ManyToManyField(ApprovedCourse)
