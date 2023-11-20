@@ -2,7 +2,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import StudentCourse
-from user.models import Student
 
 
 @receiver(post_save, sender=StudentCourse)

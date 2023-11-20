@@ -1,8 +1,8 @@
 from django.db import models
 
 from course.models import *
-from user.models import *
 from university.models import Term
+from user.models import *
 
 CHOICES_BOOLEANO_SIM_NAO = (
     ("A", 'accepted'),
@@ -49,8 +49,9 @@ class StudentSemester(models.Model):
         concat_semester = int(str(self.student.entry_year) + str(self.student.entry_semester))
 
         if self.term_no.semester_code != concat_semester:
-            student_average = StudentSemester.objects.get(student=self.student,
-                                                          term_no=previous_term).previous_semester_average
+            student_average = StudentSemester.objects.get(
+                student=self.student, term_no=previous_term
+            ).previous_semester_average
         else:
             student_average = 0
 

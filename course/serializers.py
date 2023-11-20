@@ -5,6 +5,7 @@ from .models import *
 
 
 class ApprovedCourseSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ApprovedCourse
         fields = ['name', 'department', 'type', 'unit', 'prerequisite', 'corequisite']

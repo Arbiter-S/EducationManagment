@@ -1,17 +1,19 @@
 import jdatetime
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+
 from course.serializers import *
-from permissions import *
 from course.serializers import ApprovedCourseSerializer, SemesterCourseSerializer
-from .serializer import *
-from .models import *
+from permissions import *
 from university.models import *
+
+from .models import *
+from .serializer import *
 
 
 class StudentPassedCourseReport(APIView):
@@ -44,8 +46,8 @@ class StudentRemainingTerms(APIView):
         else:
             spring_semester = 2
 
-        sum_of_semester = ((jdatetime.date.today().year - int(student.entry_year)) * 2) + max(fall_semester,
-                                                                                              spring_semester)
+        sum_of_semester = ((jdatetime.date.today().year - int(student.entry_year)) *
+                           2) + max(fall_semester, spring_semester)
 
         return Response({"remain semester": student.academic_terms - sum_of_semester})
 
@@ -71,7 +73,10 @@ class CreateSubmitRegisterCourse(APIView):
         available_courses = SemesterCourse.objects.exclude(unit_register_request__student=student)
         courses_serializer = SemesterCourseSerializer(available_courses, many=True)
 
-        return Response({"unit_register_requests": serializer.data, "available_courses": courses_serializer.data},
+        return Response({
+            "unit_register_requests": serializer.data,
+            "available_courses": courses_serializer.data
+        },
                         status=status.HTTP_200_OK)
 
     @transaction.atomic()
@@ -105,15 +110,15 @@ class CreateSubmitRegisterCourse(APIView):
 
                 existing_courses = student.unit_register_request.values_list('semester_course__id', flat=True)
                 if set(course_ids) & set(existing_courses):
-                    return Response(
-                        {"error": "Duplicate courses are not allowed across multiple registration requests"},
-                        status=status.HTTP_400_BAD_REQUEST)
+                    return Response({
+                        "error": "Duplicate courses are not allowed across multiple registration requests"
+                    },
+                                    status=status.HTTP_400_BAD_REQUEST)
 
                 if course.capacity == 0:
                     print("True")
-                    return Response(
-                        {"error": "This course doesn't have capacity:) "},
-                        status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"error": "This course doesn't have capacity:) "},
+                                    status=status.HTTP_400_BAD_REQUEST)
                 course.capacity -= 1
                 course.save()
 
@@ -129,18 +134,18 @@ class CreateSubmitRegisterCourse(APIView):
                 student_semester = StudentSemester.objects.get(student=student)
                 units = student_semester.sum_of_unit + course.approved_course.unit
                 if student_average < 17 < units:
-                    return Response(
-                        {"error": "Your average is less than 17 and you can not select more than 17 units!"},
-                        status=status.HTTP_400_BAD_REQUEST)
+                    return Response({
+                        "error": "Your average is less than 17 and you can not select more than 17 units!"
+                    },
+                                    status=status.HTTP_400_BAD_REQUEST)
                 else:
                     if units > 24:
-                        return Response(
-                            {"error": "You can not select more than 24 units!"}
-                        )
+                        return Response({"error": "You can not select more than 24 units!"})
 
                 # Create a new UnitRegisterRequest object for the student
-                unit_register_request = UnitRegisterRequest.objects.create(student=student, semester_code=semester,
-                                                                           request_answer="P")
+                unit_register_request = UnitRegisterRequest.objects.create(
+                    student=student, semester_code=semester, request_answer="P"
+                )
                 # unit_count = StudentSemester.objects.get(student=student).sum_of_unit
                 student_semester.sum_of_unit += course.approved_course.unit
                 student_semester.save()
