@@ -10,7 +10,7 @@ from user.models import *
 
 class ApprovedCourseViewSet(viewsets.ModelViewSet):
     queryset = ApprovedCourse.objects.all()
-    serializer_class = ApprovedCoueseSerializer
+    serializer_class = ApprovedCourseSerializer
 
 
 class SemesterCourseAPICreateView(ListCreateAPIView):
@@ -38,7 +38,7 @@ class SemesterRUD(RetrieveUpdateDestroyAPIView):
 
 
 class CourseListView(ListAPIView):
-    permission_classes = [IsAuthenticated, IsOwner]
+    # permission_classes = [IsAuthenticated, IsOwner]
     serializer_class = StudentCourseReadSerializer
 
     def get_queryset(self):
