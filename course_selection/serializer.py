@@ -4,6 +4,7 @@ from .models import UnitRegisterRequest
 
 
 class UnitRegisterRequestSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = UnitRegisterRequest
         fields = ["student", "semester_course", "semester_code"]

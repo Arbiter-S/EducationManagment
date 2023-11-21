@@ -12,6 +12,7 @@ class FacultyAPIListView(ListCreateAPIView):
     queryset = Department.objects.all()
     serializer_class = FacultySerializer
 
+
 class FacultyAPIDetailView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsITAdmin]
     queryset = Department.objects.all()

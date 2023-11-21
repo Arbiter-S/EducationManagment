@@ -4,6 +4,7 @@ from .models import *
 
 
 class FacultySerializer(ModelSerializer):
+
     class Meta:
         model = Department
         fields = "__all__"

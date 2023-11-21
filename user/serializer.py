@@ -1,11 +1,11 @@
-from rest_framework import serializers
-
 import django_filters
+from rest_framework import serializers
 
 from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ["username", "password"]
@@ -41,6 +41,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
 
 
 class EducationalAssistantSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = EducationalAssistant
         fields = "__all__"
@@ -58,19 +59,23 @@ class ProfessorFilterSet(django_filters.FilterSet):
 
 
 class StudentUpdateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Student
         exclude = ['user']
 
 
 class UserReadSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
-        fields = ["username", "first_name", "last_name", "national_code", "phone_number", "gender", "birth_date",
-                  "role"]
+        fields = [
+            "username", "first_name", "last_name", "national_code", "phone_number", "gender", "birth_date", "role"
+        ]
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ["first_name", "last_name", "national_code", "phone_number", "gender", "birth_date"]

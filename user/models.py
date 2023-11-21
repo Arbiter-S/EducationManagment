@@ -82,7 +82,8 @@ class Student(models.Model):
     def clean(self):
         super().clean()
         if Professor.objects.filter(user=self.user).exists() or EducationalAssistant.objects.filter(
-                user=self.user).exists() or ITAdmin.objects.filter(user=self.user).exists():
+            user=self.user
+        ).exists() or ITAdmin.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):
@@ -96,7 +97,7 @@ class Professor(models.Model):
     expertise = models.CharField(max_length=255)
     position = models.CharField(max_length=1, choices=POSITION_CHOICES, default="P")
 
-    # Past Teaching Courses 
+    # Past Teaching Courses
 
     class Meta:
         verbose_name = "Professor"
@@ -105,7 +106,8 @@ class Professor(models.Model):
     def clean(self):
         super().clean()
         if Student.objects.filter(user=self.user).exists() or EducationalAssistant.objects.filter(
-                user=self.user).exists() or ITAdmin.objects.filter(user=self.user).exists():
+            user=self.user
+        ).exists() or ITAdmin.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):
@@ -124,7 +126,8 @@ class EducationalAssistant(models.Model):
     def clean(self):
         super().clean()
         if Student.objects.filter(user=self.user).exists() or Professor.objects.filter(
-                user=self.user).exists() or ITAdmin.objects.filter(user=self.user).exists():
+            user=self.user
+        ).exists() or ITAdmin.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):
@@ -141,7 +144,8 @@ class ITAdmin(models.Model):
     def clean(self):
         super().clean()
         if Student.objects.filter(user=self.user).exists() or Professor.objects.filter(
-                user=self.user).exists() or EducationalAssistant.objects.filter(user=self.user).exists():
+            user=self.user
+        ).exists() or EducationalAssistant.objects.filter(user=self.user).exists():
             raise ValidationError("This User Is Already Assigned To a Different Role")
 
     def __str__(self):

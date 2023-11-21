@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    restart: always
+    expose:
+      - 5432
+
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: >
+      sh -c "python manage.py check_database &&
+            python manage.py collectstatic --noinput &&
+            yes | python manage.py makemigrations &&
+            yes | python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresql
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    expose:
+      - 9000
+      - 9001
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server --console-address ":9001" /data
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    expose:
+      - "6379"
+    command: redis-server --save 60 1 --loglevel warning
+
+  celery:
+    container_name: celery
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: celery -A config worker --loglevel=info
+    restart: always
+    depends_on:
+      - backend
+      - postgresql
+      - redis
