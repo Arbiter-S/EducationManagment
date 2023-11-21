@@ -12,7 +12,6 @@ def national_code(value):
     if check >= 2 and 11 - check == int(value[9]):
         return True
 
-
 def phone_number(value):
     if len(value) != 11:
         raise ValidationError("Phone Number Must Be Exactly 11 characters Long")
@@ -20,7 +19,6 @@ def phone_number(value):
         raise ValidationError("Phone Number Must start With '09'")
     if not value[2:].isdigit():
         raise ValidationError("Phone Number Must Contain Only Numerical Digits")
-
 
 def birth_date(value):
     if value.year > 2007:

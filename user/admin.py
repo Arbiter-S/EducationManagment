@@ -18,55 +18,33 @@ class CustomUserAdmin(UserAdmin):
     form = UserChangeForm
     add_form = CustomUserCreationForm
     list_display = (
-        "username", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role"
-    )
+    "username", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role")
     search_fields = (
-        "username", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role"
-    )
+    "username", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role")
     list_filter = ()
     list_per_page = 10
 
     fieldsets = (
-        (
-            "Personal info", {
-                "fields": (
-                    "id", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date",
-                    "role"
-                )
-            }
-        ),
-        ("Authentication", {
-            "fields": ("username", "password")
-        }),
-        ("Important dates", {
-            "fields": ("last_login", "date_joined")
-        }),
-        ("Permissions", {
-            "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")
-        }),
+        ("Personal info", {"fields": (
+        "id", "first_name", "last_name", "national_code", "email", "phone_number", "gender", "birth_date", "role")}),
+        ("Authentication", {"fields": ("username", "password")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
     )
 
     add_fieldsets = (
-        (
-            "Personal info", {
-                "fields": (
-                    "first_name", "last_name", "email", "national_code", "phone_number", "gender", "birth_date", "role"
-                )
-            }
-        ),
+        ("Personal info", {"fields": (
+        "first_name", "last_name", "email", "national_code", "phone_number", "gender", "birth_date", "role")}),
         ("Authentication", {
             "classes": ("wide",),
             "fields": ("username", "password1", "password2"),
         }),
-        ("Permissions", {
-            "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")
-        }),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
     )
 
     readonly_fields = (
-        "id", "username", "first_name", "last_name", "national_code", "gender", "birth_date", "role", "password",
-        "is_active", "is_staff", "is_superuser", "last_login", "date_joined"
-    )
+    "id", "username", "first_name", "last_name", "national_code", "gender", "birth_date", "role", "password",
+    "is_active", "is_staff", "is_superuser", "last_login", "date_joined")
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = list(super().get_readonly_fields(request, obj))
@@ -81,16 +59,14 @@ class CustomUserAdmin(UserAdmin):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = (
-        "user_username", "user_first_name", "user_last_name", "department", "major", "degree", "entry_year",
-        "entry_semester", "get_military_status", "supervisor"
-    )
+    list_display = ("user_username", "user_first_name", "user_last_name", "department", "major", "degree", "entry_year",
+                    "entry_semester", "get_military_status", "supervisor")
     search_fields = ("user__first_name", "user__last_name", "user__national_code")
     list_filter = ()
     list_per_page = 10
 
-    fieldsets = ((
-        "Student Information", {
+    fieldsets = (
+        ("Student Information", {
             "fields": (
                 "user",
                 "department",
@@ -105,9 +81,10 @@ class StudentAdmin(admin.ModelAdmin):
                 "is_soldier",
                 "military_status",
                 "supervisor",
+
             ),
-        }
-    ),)
+        }),
+    )
 
     def user_first_name(self, obj):
         return obj.user.first_name
@@ -127,21 +104,22 @@ class StudentAdmin(admin.ModelAdmin):
 
 class ProfessorAdmin(admin.ModelAdmin):
     list_display = (
-        "user_username", "user_first_name", "user_last_name", "department", "major", "expertise", "position"
-    )
+    "user_username", "user_first_name", "user_last_name", "department", "major", "expertise", "position")
     search_fields = ("user__first_name", "user__last_name", "user__national_code")
     list_filter = ()
     list_per_page = 10
 
-    fieldsets = (("Professor Information", {
-        "fields": (
-            "user",
-            "department",
-            "major",
-            "expertise",
-            "position",
-        ),
-    }),)
+    fieldsets = (
+        ("Professor Information", {
+            "fields": (
+                "user",
+                "department",
+                "major",
+                "expertise",
+                "position",
+            ),
+        }),
+    )
 
     def user_first_name(self, obj):
         return obj.user.first_name
@@ -165,13 +143,15 @@ class EducationalAssistantAdmin(admin.ModelAdmin):
     list_filter = ()
     list_per_page = 10
 
-    fieldsets = (("Educational Assistant Information", {
-        "fields": (
-            "user",
-            "department",
-            "major",
-        ),
-    }),)
+    fieldsets = (
+        ("Educational Assistant Information", {
+            "fields": (
+                "user",
+                "department",
+                "major",
+            ),
+        }),
+    )
 
     def user_first_name(self, obj):
         return obj.user.first_name
@@ -195,9 +175,13 @@ class ITAdminAdmin(admin.ModelAdmin):
     list_filter = ()
     list_per_page = 10
 
-    fieldsets = (("IT Admin Information", {
-        "fields": ("user",),
-    }),)
+    fieldsets = (
+        ("IT Admin Information", {
+            "fields": (
+                "user",
+            ),
+        }),
+    )
 
     def user_first_name(self, obj):
         return obj.user.first_name

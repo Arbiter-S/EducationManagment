@@ -6,6 +6,7 @@ from .views import *
 subject_router = routers.DefaultRouter()
 subject_router.register(r'subjects', ApprovedCourseViewSet, basename='survey')
 
+
 urlpatterns = [
     path('', include(subject_router.urls)),
     path('courses/', SemesterCourseAPICreateView.as_view(), name='SemesterCreateList'),
