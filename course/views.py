@@ -1,13 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-
 from permissions import *
-from user.models import *
-
-from .models import *
 from .serializers import *
+from .models import *
+from user.models import *
 
 
 class ApprovedCourseViewSet(viewsets.ModelViewSet):
